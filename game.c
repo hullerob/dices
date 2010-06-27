@@ -40,12 +40,15 @@ int get_dices (int *occ) {
 }
 
 void game_new       (struct game *game) {
+  int i;
   game -> turns = 0;
   game -> max_score = 1000;
   game -> player_1 = 0;
   game -> player_2 = 0;
   game -> dices = 6;
   game -> cur_score = 0;
+  for (i = 0; i < 6; i++)
+    game -> last_occ[i] = 0;
 }
 
 void game_roll      (struct game *game) {
@@ -64,6 +67,8 @@ void game_roll      (struct game *game) {
     game -> cur_score += score;
     game -> dices = get_dices (occ);
   }
+  for (i = 0; i < 6; i++)
+    game -> last_occ[i] = occ[i];
 }
 
 void game_pass      (struct game *game) {

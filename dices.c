@@ -11,11 +11,18 @@ void dices (void) {
     printf ("Player 1: %4d\n", game.player_1);
     printf ("Player 2: %4d\n\n", game.player_2);
     while (1) {
+      int i;
       int cp = current_player ( &game );
       int tot = cp == 1 ? game.player_1 : game.player_2;
       game_roll ( &game );
-      printf ("Player %d rolls. S[ %4d ] T[ %4d ] d[ %d ]\n"
-        , cp, game.cur_score, tot + game.cur_score, game.dices);
+      printf("Player %d rolls:", cp);
+      for (i = 0; i < 6; i++) {
+        while (game.last_occ[i] --> 0) {
+          printf (" [%d]", i+1);
+        }
+      }
+      printf (" S[ %4d ] T[ %4d ] d[ %d ]\n"
+        , game.cur_score, tot + game.cur_score, game.dices);
       if (game.cur_score == 0) {
         break;
       }

@@ -9,6 +9,7 @@ struct game {
   int player_1;
   int player_2;
   int dices;
+  int last_occ[6];
   int cur_score;
 };
 
