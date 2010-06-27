@@ -18,6 +18,8 @@ int get_score(int *occ) {
   score = 0;
   if (occ[0] >= 3) {
     score += 100 * (occ[0] - 2);
+  } else {
+    score += 10 * occ[0];
   }
   for (i = 1; i < 6; i++) {
     if (occ[i] >= 3) {
