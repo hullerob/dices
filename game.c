@@ -34,6 +34,10 @@ int get_score(int *occ) {
 
 int get_dices (int *occ) {
   int dices = 0;
+  if (occ[0] == 1 && occ[1] == 1
+    && occ[2] == 1 && occ[3] == 1
+    && occ[4] == 1 && occ[5] == 1)
+    return 6;
   if (occ[1] < 3) dices += occ[1];
   if (occ[2] < 3) dices += occ[2];
   if (occ[3] < 3) dices += occ[3];
