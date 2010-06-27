@@ -2,7 +2,7 @@
 
 include config.mk
 
-SRC = game.c
+SRC = game.c dices.c
 HEAD = game.h
 OBJ = ${SRC:.c=.o}
 

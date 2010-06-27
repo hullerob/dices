@@ -6,7 +6,7 @@
 int random_number (void) {
   int rnd;
   rnd = rand();
-  return rnd % 6 + 1;
+  return rnd % 6;
 }
 
 int get_score(int *occ) {
@@ -59,6 +59,7 @@ void game_roll      (struct game *game) {
   if (score == 0) {
     game -> cur_score = 0;
     game -> turns ++;
+    game -> dices = 6;
   } else {
     game -> cur_score += score;
     game -> dices = get_dices (occ);
