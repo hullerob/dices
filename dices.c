@@ -3,30 +3,61 @@
 #include <stdio.h>
 #include "game.h"
 
+#ifdef WITH_COLOR
+#define C_NORMAL   "\033[0m"
+#define C_RED      "\033[31m"
+#define C_GREEN    "\033[32m"
+#define C_YELLOW   "\033[33m"
+#define C_BLUE     "\033[34m"
+#define C_RED_B    "\033[31;1m"
+#define C_GREEN_B  "\033[32;1m"
+#define C_YELLOW_B "\033[33;1m"
+#define C_BLUE_B   "\033[34;1m"
+#else /* WITH_COLOR */
+#define C_NORMAL   ""
+#define C_RED      ""
+#define C_GREEN    ""
+#define C_YELLOW   ""
+#define C_BLUE     ""
+#define C_RED_B    ""
+#define C_GREEN_B  ""
+#define C_YELLOW_B ""
+#define C_BLUE_B   ""
+#endif /* WITH_COLOR */
+
 void dices (void) {
   struct game game;
   game_new ( &game );
   while (winner ( &game ) == 0) {
     printf ("\n--[ %3d ]------------------\n", game.turns / 2 + 1);
-    printf ("Player 1: %4d\n", game.player_1);
-    printf ("Player 2: %4d\n\n", game.player_2);
+    printf ("Player 1: %s%4d%s\n", C_YELLOW_B, game.player_1, C_NORMAL);
+    printf ("Player 2: %s%4d%s\n\n", C_YELLOW_B, game.player_2, C_NORMAL);
     while (1) {
-      int i, ndic;
+      int i, j, ndic;
       int cp = current_player ( &game );
       int tot = cp == 1 ? game.player_1 : game.player_2;
       game_roll ( &game );
-      printf("Player %d rolls:", cp);
+      printf("Player %s%d%s rolls:", C_YELLOW_B, cp, C_NORMAL);
       ndic = 0;
       for (i = 0; i < 6; i++) {
-        while (game.last_occ[i] --> 0) {
-          printf (" [%d]", i+1);
+        for (j = 0; j < game.last_occ[i]; j++) {
+          const char *stc;
+          /* FIXME straight */
+          if (i == 0 || i == 4 || game.last_occ[i] >= 3) {
+            stc = C_GREEN_B;
+          } else {
+            stc = C_RED_B;
+          }
+          printf (" %s[%s%d%s]%s", stc, C_NORMAL, i+1, stc, C_NORMAL);
           ndic ++;
         }
       }
       for (i = 0; i < 6 - ndic; i++)
         printf ("    ");
-      printf (" S[ %4d ] T[ %4d ] d[ %d ]\n"
-        , game.cur_score, tot + game.cur_score, game.dices);
+      printf (" S[ %s%4d%s ] T[ %s%4d%s ] d[ %s%d%s ]\n"
+        , C_YELLOW_B, game.cur_score, C_NORMAL
+        , C_GREEN_B, tot + game.cur_score, C_NORMAL
+        , C_RED_B, game.dices, C_NORMAL);
       if (game.cur_score == 0) {
         break;
       }
