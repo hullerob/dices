@@ -1,4 +1,4 @@
-/* game.c */
+/* game.c See LICENSE file for details */
 
 #include <stdlib.h>
 #include "game.h"

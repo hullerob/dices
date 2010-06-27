@@ -1,4 +1,4 @@
-/* game.h */
+/* game.h See LICENSE file for details */
 
 #ifndef _DICES_GAME_H
 #define _DICES_GAME_H

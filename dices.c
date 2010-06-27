@@ -1,4 +1,4 @@
-/* dices.c */
+/* dices.c See LICENSE file for details. */
 
 #include <stdio.h>
 #include "game.h"
