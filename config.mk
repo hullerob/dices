@@ -12,10 +12,10 @@ INCS = -I. -I/usr/include
 LIBS =
 
 # flags
-CFLAGS  = -std=c99 -pedantic -Wall -Wextra -Werror -O0 -g ${INCS}
+CFLAGS  = -std=c99 -pedantic -Wall -Wextra -Werror -Os ${INCS}
 CFLAGS += -DVERSION=\"${VERSION}\"
 LDFLAGS = ${LIBS} -static
 
 # compiler and linker
-CC = clang
+CC = cc
 LD = ${CC}
