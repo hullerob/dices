@@ -34,16 +34,19 @@ void dices (void) {
     printf ("Player 2: %s%4d%s\n\n", C_YELLOW_B, game.player_2, C_NORMAL);
     while (1) {
       int i, j, ndic;
+      int straight;
       int cp = current_player ( &game );
       int tot = cp == 1 ? game.player_1 : game.player_2;
       game_roll ( &game );
       printf("Player %s%d%s rolls:", C_YELLOW_B, cp, C_NORMAL);
       ndic = 0;
+      straight = game.last_occ[0] == 1 && game.last_occ[1] == 1
+        && game.last_occ[2] == 1 && game.last_occ[3] == 1
+        && game.last_occ[4] == 1 && game.last_occ[5] == 1;
       for (i = 0; i < 6; i++) {
         for (j = 0; j < game.last_occ[i]; j++) {
           const char *stc;
-          /* FIXME straight */
-          if (i == 0 || i == 4 || game.last_occ[i] >= 3) {
+          if (i == 0 || i == 4 || game.last_occ[i] >= 3 || straight) {
             stc = C_GREEN_B;
           } else {
             stc = C_RED_B;
