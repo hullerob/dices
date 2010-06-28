@@ -63,7 +63,7 @@ void dices (void) {
       new_score = (game.cur_score >= 50 || (tot > 0 && game.cur_score >= 35) )
         ? tot + game.cur_score : tot;
       printf (" S[ %s%4d%s ] T[ %s%4d%s ] d[ %s%d%s ]\n"
-        , C_YELLOW_B, game.cur_score, C_NORMAL
+        , (tot == new_score) ? C_RED_B : C_YELLOW_B, game.cur_score, C_NORMAL
         , C_GREEN_B, new_score, C_NORMAL
         , C_RED_B, game.dices, C_NORMAL);
       if (game.cur_score == 0) {
