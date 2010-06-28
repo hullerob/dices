@@ -1,6 +1,8 @@
 /* dices.c See LICENSE file for details. */
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "game.h"
 
 #ifdef WITH_COLOR
@@ -83,11 +85,33 @@ roll_br: ;
   printf("Player %d wins.\n", winner( &game ));
 }
 
+void init_seed (void) {
+  unsigned int seed;
+  FILE *f;
+  f = fopen("/dev/urandom", "r");
+  if (f == NULL) {
+    perror("Can not open /dev/urandom");
+    fprintf(stderr, "Using system time to seed RNG.\n");
+    seed = (unsigned int) time (NULL);
+  } else {
+    if (1 != fread(&seed, sizeof(seed), 1, f)) {
+      fprintf(stderr, "Can not read from /dev/urandom. "
+        "Using system time to seed RNG.\n");
+      seed = (unsigned int) time (NULL);
+    }
+    if (fclose(f) == EOF) {
+      perror("Can not close /dev/urandom");
+    }
+  }
+  srand (seed);
+}
+
 int main (int argc, char **argv) {
   if (argc > 1) {
     fprintf(stderr, "Usage: %s\n", argv[0]);
     return 1;
   }
+  init_seed ();
   dices ();
   return 0;
 }
