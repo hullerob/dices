@@ -37,6 +37,7 @@ void dices (void) {
     while (1) {
       int i, j, ndic;
       int straight;
+      int new_score;
       int cp = current_player ( &game );
       int tot = cp == 1 ? game.player_1 : game.player_2;
       game_roll ( &game );
@@ -59,9 +60,11 @@ void dices (void) {
       }
       for (i = 0; i < 6 - ndic; i++)
         printf ("    ");
+      new_score = (game.cur_score >= 50 || (tot > 0 && game.cur_score >= 35) )
+        ? tot + game.cur_score : tot;
       printf (" S[ %s%4d%s ] T[ %s%4d%s ] d[ %s%d%s ]\n"
         , C_YELLOW_B, game.cur_score, C_NORMAL
-        , C_GREEN_B, tot + game.cur_score, C_NORMAL
+        , C_GREEN_B, new_score, C_NORMAL
         , C_RED_B, game.dices, C_NORMAL);
       if (game.cur_score == 0) {
         break;
