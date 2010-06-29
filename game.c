@@ -80,9 +80,13 @@ void game_roll      (struct game *game) {
 void game_pass      (struct game *game) {
   int player = game -> turns & 1;
   if (player) {
-    game -> player_2 += game -> cur_score;
+    if ( ((game -> player_2 > 0) && (game -> cur_score >= 35))
+      || (game -> cur_score >= 50))
+      game -> player_2 += game -> cur_score;
   } else {
-    game -> player_1 += game -> cur_score;
+    if ( ((game -> player_1 > 0) && (game -> cur_score >= 35))
+      || (game -> cur_score >= 50))
+      game -> player_1 += game -> cur_score;
   }
   game -> cur_score = 0;
   game -> turns ++;
