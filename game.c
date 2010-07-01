@@ -32,6 +32,23 @@ int get_score(int *occ) {
   return score;
 }
 
+void update_dices (struct game *game) {
+  int i, j;
+  int dice_cout = 0;
+  int straight = game -> last_occ[0] == 1 && game -> last_occ[1] == 1
+    && game -> last_occ[2] == 1 && game -> last_occ[3] == 1
+    && game -> last_occ[4] == 1 && game -> last_occ[5] == 1;
+  for (i = 0; i < 6; i++) {
+    for (j = 0; j < game -> last_occ[i]; j++) {
+      game -> last_dices[dice_cout].valid
+        = i == 0 || i == 4 || game -> last_occ[i] >= 3 || straight;
+      game -> last_dices[dice_cout].dice = i+1;
+      dice_cout ++;
+    }
+  }
+  game -> last_dices_count = dice_cout;
+}
+
 int get_dices (int *occ) {
   int dices = 0;
   if (occ[0] == 1 && occ[1] == 1
@@ -75,6 +92,7 @@ void game_roll      (struct game *game) {
   }
   for (i = 0; i < 6; i++)
     game -> last_occ[i] = occ[i];
+  update_dices (game);
 }
 
 void game_pass      (struct game *game) {

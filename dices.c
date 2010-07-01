@@ -35,30 +35,21 @@ void dices (void) {
     printf ("Player 1: %s%4d%s\n", C_YELLOW_B, game.player_1, C_NORMAL);
     printf ("Player 2: %s%4d%s\n\n", C_YELLOW_B, game.player_2, C_NORMAL);
     while (1) {
-      int i, j, ndic;
-      int straight;
+      int i;
       int new_score;
       int cp = current_player ( &game );
       int tot = cp == 1 ? game.player_1 : game.player_2;
       game_roll ( &game );
       printf("Player %s%d%s rolls:", C_YELLOW_B, cp, C_NORMAL);
-      ndic = 0;
-      straight = game.last_occ[0] == 1 && game.last_occ[1] == 1
-        && game.last_occ[2] == 1 && game.last_occ[3] == 1
-        && game.last_occ[4] == 1 && game.last_occ[5] == 1;
-      for (i = 0; i < 6; i++) {
-        for (j = 0; j < game.last_occ[i]; j++) {
-          const char *stc;
-          if (i == 0 || i == 4 || game.last_occ[i] >= 3 || straight) {
-            stc = C_GREEN_B;
-          } else {
-            stc = C_RED_B;
-          }
-          printf (" %s[%s%d%s]%s", stc, C_NORMAL, i+1, stc, C_NORMAL);
-          ndic ++;
-        }
+      for (i = 0; i < game.last_dices_count; i++) {
+        const char *str1, *str2, *str3;
+        str1 = game.last_dices[i].valid ? C_GREEN_B : C_RED_B;
+        str2 = C_NORMAL;
+        str3 = game.last_dices[i].valid ? C_GREEN_B : C_RED_B;
+        printf(" %s[%s%d%s]%s", str1, str2
+          , game.last_dices[i].dice, str3, C_NORMAL);
       }
-      for (i = 0; i < 6 - ndic; i++)
+      for (i = 0; i < 6 - game.last_dices_count; i++)
         printf ("    ");
       new_score = (game.cur_score >= 50 || (tot > 0 && game.cur_score >= 35) )
         ? tot + game.cur_score : tot;

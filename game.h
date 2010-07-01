@@ -3,12 +3,19 @@
 #ifndef _DICES_GAME_H
 #define _DICES_GAME_H
 
+struct dice {
+  int dice;
+  int valid;
+};
+
 struct game {
   int turns;
   int max_score;
   int player_1;
   int player_2;
   int dices;
+  struct dice last_dices[6];
+  int last_dices_count;
   int last_occ[6];
   int cur_score;
 };
