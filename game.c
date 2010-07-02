@@ -66,8 +66,8 @@ void game_new       (struct game *game) {
   int i;
   game -> turns = 0;
   game -> max_score = 1000;
-  game -> player_1 = 0;
-  game -> player_2 = 0;
+  game -> player[0] = 0;
+  game -> player[1] = 0;
   game -> dices = 6;
   game -> cur_score = 0;
   for (i = 0; i < 6; i++)
@@ -98,13 +98,13 @@ void game_roll      (struct game *game) {
 void game_pass      (struct game *game) {
   int player = game -> turns & 1;
   if (player) {
-    if ( ((game -> player_2 > 0) && (game -> cur_score >= 35))
+    if ( ((game -> player[1] > 0) && (game -> cur_score >= 35))
       || (game -> cur_score >= 50))
-      game -> player_2 += game -> cur_score;
+      game -> player[1] += game -> cur_score;
   } else {
-    if ( ((game -> player_1 > 0) && (game -> cur_score >= 35))
+    if ( ((game -> player[0] > 0) && (game -> cur_score >= 35))
       || (game -> cur_score >= 50))
-      game -> player_1 += game -> cur_score;
+      game -> player[0] += game -> cur_score;
   }
   game -> cur_score = 0;
   game -> turns ++;
@@ -116,10 +116,10 @@ int  current_player (struct game *game) {
 }
 
 int  winner         (struct game *game) {
-  if (game -> player_1 < game -> max_score
-    && game -> player_2 < game -> max_score)
+  if (game -> player[0] < game -> max_score
+    && game -> player[1] < game -> max_score)
     return 0;
-  if (game -> player_1 > game -> player_2)
+  if (game -> player[0] > game -> player[1])
     return 1;
   else
     return 2;

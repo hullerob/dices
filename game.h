@@ -11,8 +11,7 @@ struct dice {
 struct game {
   int turns;
   int max_score;
-  int player_1;
-  int player_2;
+  int player[2];
   int dices;
   struct dice last_dices[6];
   int last_dices_count;
