@@ -62,6 +62,12 @@ int get_dices (int *occ) {
   return dices ? dices : 6;
 }
 
+void game_init      (struct game *game) {
+}
+
+void game_destroy   (struct game *game) {
+}
+
 void game_new       (struct game *game) {
   int i;
   game -> turns = 0;

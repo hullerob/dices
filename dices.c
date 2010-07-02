@@ -29,6 +29,7 @@
 
 void dices (void) {
   struct game game;
+  game_init ( &game);
   game_new ( &game );
   while (winner ( &game ) == 0) {
     printf ("\n--[ %3d ]------------------\n", game.turns / 2 + 1);
@@ -77,6 +78,7 @@ void dices (void) {
 roll_br: ;
   }
   printf("Player %d wins.\n", winner( &game ));
+  game_destroy ( &game );
 }
 
 void init_seed (void) {

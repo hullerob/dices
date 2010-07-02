@@ -19,6 +19,8 @@ struct game {
   int cur_score;
 };
 
+void game_init      (struct game *game);
+void game_destroy   (struct game *game);
 void game_new       (struct game *game);
 void game_roll      (struct game *game);
 void game_pass      (struct game *game);
