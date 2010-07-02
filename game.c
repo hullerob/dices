@@ -1,5 +1,7 @@
 /* game.c See LICENSE file for details */
 
+#include <assert.h>
+#include <string.h>
 #include <stdlib.h>
 #include "game.h"
 
@@ -63,17 +65,23 @@ int get_dices (int *occ) {
 }
 
 void game_init      (struct game *game) {
+  game -> player[0].name = NULL;
+  game -> player[1].name = NULL;
 }
 
 void game_destroy   (struct game *game) {
+  free ((void *) game -> player[0].name);
+  free ((void *) game -> player[1].name);
+  game -> player[0].name = NULL;
+  game -> player[1].name = NULL;
 }
 
 void game_new       (struct game *game) {
   int i;
   game -> turns = 0;
   game -> max_score = 1000;
-  game -> player[0] = 0;
-  game -> player[1] = 0;
+  game -> player[0].score = 0;
+  game -> player[1].score = 0;
   game -> dices = 6;
   game -> cur_score = 0;
   for (i = 0; i < 6; i++)
@@ -104,17 +112,21 @@ void game_roll      (struct game *game) {
 void game_pass      (struct game *game) {
   int player = game -> turns & 1;
   if (player) {
-    if ( ((game -> player[1] > 0) && (game -> cur_score >= 35))
+    if ( ((game -> player[1].score > 0) && (game -> cur_score >= 35))
       || (game -> cur_score >= 50))
-      game -> player[1] += game -> cur_score;
+      game -> player[1].score += game -> cur_score;
   } else {
-    if ( ((game -> player[0] > 0) && (game -> cur_score >= 35))
+    if ( ((game -> player[0].score > 0) && (game -> cur_score >= 35))
       || (game -> cur_score >= 50))
-      game -> player[0] += game -> cur_score;
+      game -> player[0].score += game -> cur_score;
   }
   game -> cur_score = 0;
   game -> turns ++;
   game -> dices = 6;
+}
+
+int  player_score   (struct game *game, int player) {
+  return game -> player[player-1].score;
 }
 
 int  current_player (struct game *game) {
@@ -122,13 +134,26 @@ int  current_player (struct game *game) {
 }
 
 int  winner         (struct game *game) {
-  if (game -> player[0] < game -> max_score
-    && game -> player[1] < game -> max_score)
+  if (game -> player[0].score < game -> max_score
+    && game -> player[1].score < game -> max_score)
     return 0;
-  if (game -> player[0] > game -> player[1])
+  if (game -> player[0].score > game -> player[1].score)
     return 1;
   else
     return 2;
+}
+
+const char *player_name (struct game *game, int player) {
+  return game -> player[player-1].name;
+}
+
+void set_player_name (struct game *game, int player, const char *name) {
+  size_t len = strlen (name) + 1;
+  free ((void *) game -> player[player-1].name);
+  game -> player[player-1].name
+    = (const char *) malloc (sizeof (char) * len);
+  assert(game -> player[player-1].name != NULL);
+  strcpy((char *) game -> player[player-1].name, name);
 }
 
 /* EOF */

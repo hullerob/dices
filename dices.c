@@ -33,13 +33,15 @@ void dices (void) {
   game_new ( &game );
   while (winner ( &game ) == 0) {
     printf ("\n--[ %3d ]------------------\n", game.turns / 2 + 1);
-    printf ("Player 1: %s%4d%s\n", C_YELLOW_B, game.player[0], C_NORMAL);
-    printf ("Player 2: %s%4d%s\n\n", C_YELLOW_B, game.player[1], C_NORMAL);
+    printf ("Player 1: %s%4d%s\n"
+      , C_YELLOW_B, player_score( &game, 1), C_NORMAL);
+    printf ("Player 2: %s%4d%s\n\n"
+      , C_YELLOW_B, player_score( &game, 2), C_NORMAL);
     while (1) {
       int i;
       int new_score;
       int cp = current_player ( &game );
-      int tot = cp == 1 ? game.player[0] : game.player[1];
+      int tot = player_score ( &game, cp);
       game_roll ( &game );
       printf("Player %s%d%s rolls:", C_YELLOW_B, cp, C_NORMAL);
       for (i = 0; i < game.last_dices_count; i++) {

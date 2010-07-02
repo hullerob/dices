@@ -8,10 +8,15 @@ struct dice {
   int valid;
 };
 
+struct player {
+  const char *name;
+  int score;
+};
+
 struct game {
   int turns;
   int max_score;
-  int player[2];
+  struct player player[2];
   int dices;
   struct dice last_dices[6];
   int last_dices_count;
@@ -26,6 +31,9 @@ void game_roll      (struct game *game);
 void game_pass      (struct game *game);
 int  current_player (struct game *game);
 int  winner         (struct game *game);
+int  player_score   (struct game *game, int player);
+const char *player_name (struct game *game, int player);
+void set_player_name (struct game *game, int player, const char *name);
 
 #endif /* _DICES_GAME_H */
 
