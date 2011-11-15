@@ -1,0 +1,27 @@
+DICE ROLLING GAME
+=================
+
+
+CONFIG
+======
+
+see config.mk
+
+
+COMPILE
+=======
+make
+
+
+INSTALL
+=======
+make install
+
+
+RUN
+===
+dices
+
+
+
+Have a fun.
